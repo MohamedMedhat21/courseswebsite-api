@@ -1,0 +1,53 @@
+package com.medhat.springboot.courseswebsite.service;
+
+
+import com.medhat.springboot.courseswebsite.dao.RolesRepository;
+import com.medhat.springboot.courseswebsite.entity.Role;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class RolesServiceImpl implements RolesService {
+
+    private RolesRepository rolesRepository;
+
+    public RolesServiceImpl(RolesRepository rolesRepository) {
+        this.rolesRepository = rolesRepository;
+    }
+
+    @Override
+    @Transactional
+    public List<Role> findAll() {
+        return rolesRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Role findById(int roleId) {
+        Optional<Role> result = rolesRepository.findById(roleId);
+
+        Role role;
+
+        if(result.isPresent())
+            role =  result.get();
+        else
+            throw new RuntimeException("Role with Id:"+roleId+" not found");
+
+        return role;
+    }
+
+    @Override
+    @Transactional
+    public void saveRole(Role role) {
+        rolesRepository.save(role);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(int userId) {
+        rolesRepository.deleteById(userId);
+    }
+}
