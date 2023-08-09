@@ -1,6 +1,8 @@
 package com.medhat.springboot.courseswebsite.service;
 
 import com.medhat.springboot.courseswebsite.entity.Course;
+import com.medhat.springboot.courseswebsite.entity.StudentCourses;
+import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.User;
 
 import java.util.List;
@@ -12,4 +14,6 @@ public interface UsersService {
     public void deleteById(int userId);
 
     public List<Course> findInstructorCourses(int userId);
+
+    public List<StudentCoursesData> findEnrolledCourses(int userId);
 }

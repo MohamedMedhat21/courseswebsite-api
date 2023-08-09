@@ -2,8 +2,12 @@ package com.medhat.springboot.courseswebsite.service;
 
 
 import com.medhat.springboot.courseswebsite.dao.CoursesRepository;
+import com.medhat.springboot.courseswebsite.dao.StudentCoursesDataRepository;
+import com.medhat.springboot.courseswebsite.dao.StudentCoursesRepository;
 import com.medhat.springboot.courseswebsite.dao.UsersRepository;
 import com.medhat.springboot.courseswebsite.entity.Course;
+import com.medhat.springboot.courseswebsite.entity.StudentCourses;
+import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +21,12 @@ public class UsersServiceImpl implements UsersService {
     private UsersRepository usersRepository;
     private CoursesRepository coursesRepository;
 
-    public UsersServiceImpl(UsersRepository usersRepository,CoursesRepository coursesRepository) {
+    private StudentCoursesDataRepository studentCoursesDataRepository;
+
+    public UsersServiceImpl(UsersRepository usersRepository,CoursesRepository coursesRepository,StudentCoursesDataRepository studentCoursesDataRepository) {
         this.usersRepository = usersRepository;
         this.coursesRepository = coursesRepository;
+        this.studentCoursesDataRepository = studentCoursesDataRepository;
     }
 
     @Override
@@ -32,6 +39,16 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public List<Course> findInstructorCourses(int userId) {
         return coursesRepository.findByInstructorId(userId);
+    }
+
+    @Override
+    public List<StudentCoursesData> findEnrolledCourses(int userId) {
+
+        List<StudentCoursesData> studentCoursesData = studentCoursesDataRepository.findByUserId(userId);
+
+//        System.out.println(studentCoursesData.get(0));
+
+        return studentCoursesData;
     }
 
     @Override

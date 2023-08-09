@@ -2,6 +2,8 @@ package com.medhat.springboot.courseswebsite.rest;
 
 
 import com.medhat.springboot.courseswebsite.entity.Course;
+import com.medhat.springboot.courseswebsite.entity.StudentCourses;
+import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.User;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +39,10 @@ public class UsersRestController {
         return usersService.findInstructorCourses(userId);
     }
 
-//    @GetMapping("/users/{userId}/enrollments")
-//    public List<Course> findEnrolledCourses(@PathVariable int userId){
-//        return usersService.findEnrolledCourses(userId);
-//    }
+    @GetMapping("/users/{userId}/enrollments")
+    public List<StudentCoursesData> findEnrolledCourses(@PathVariable int userId){
+        return usersService.findEnrolledCourses(userId);
+    }
 
     @PostMapping("/users")
     public User addUser(@RequestBody User user){
