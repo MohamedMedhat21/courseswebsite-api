@@ -3,6 +3,7 @@ package com.medhat.springboot.courseswebsite.service;
 
 import com.medhat.springboot.courseswebsite.dao.RolesRepository;
 import com.medhat.springboot.courseswebsite.entity.Role;
+import com.medhat.springboot.courseswebsite.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +21,13 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     @Transactional
-    public List<Role> findAll() {
+    public List<Role> getAll() {
         return rolesRepository.findAll();
     }
 
     @Override
     @Transactional
-    public Role findById(int roleId) {
+    public Role getById(int roleId) {
         Optional<Role> result = rolesRepository.findById(roleId);
 
         Role role;
@@ -34,7 +35,7 @@ public class RolesServiceImpl implements RolesService {
         if(result.isPresent())
             role =  result.get();
         else
-            throw new RuntimeException("Role with Id:"+roleId+" not found");
+            throw new NotFoundException("Role with Id:"+roleId+" not found");
 
         return role;
     }

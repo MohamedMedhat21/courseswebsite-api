@@ -9,6 +9,7 @@ import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.entity.StudentCourses;
 import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.User;
+import com.medhat.springboot.courseswebsite.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,29 +32,40 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @Transactional
-    public List<User> findAll() {
+    public List<User> getAll() {
         return usersRepository.findAll();
     }
 
     @Override
     @Transactional
-    public List<Course> findInstructorCourses(int userId) {
-        return coursesRepository.findByInstructorId(userId);
+    public List<Course> getInstructorCourses(int userId) {
+
+        getById(userId);
+
+        List<Course> courses = coursesRepository.findByInstructorId(userId);
+
+        if (courses.isEmpty())
+            throw new NotFoundException("Instructor with Id:"+userId+" has no courses");
+
+        return courses;
     }
 
     @Override
-    public List<StudentCoursesData> findEnrolledCourses(int userId) {
+    public List<StudentCoursesData> getEnrolledCourses(int userId) {
+
+        getById(userId);
 
         List<StudentCoursesData> studentCoursesData = studentCoursesDataRepository.findByUserId(userId);
 
-//        System.out.println(studentCoursesData.get(0));
+        if (studentCoursesData.isEmpty())
+            throw new NotFoundException("Student with Id:"+userId+" not enrolled in any course");
 
         return studentCoursesData;
     }
 
     @Override
     @Transactional
-    public User findById(int userId) {
+    public User getById(int userId) {
         Optional<User> result = usersRepository.findById(userId);
 
         User user;
@@ -61,15 +73,15 @@ public class UsersServiceImpl implements UsersService {
         if(result.isPresent())
             user =  result.get();
         else
-            throw new RuntimeException("User with Id:"+userId+" not found");
+            throw new NotFoundException("User with Id:"+userId+" not found");
 
         return user;
     }
 
     @Override
     @Transactional
-    public void saveUser(User user) {
-        usersRepository.save(user);
+    public User saveUser(User user) {
+        return usersRepository.save(user);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.medhat.springboot.courseswebsite.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="username")
     private String userName;
@@ -20,17 +22,17 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @Column(name="enabled")
-    private int enabled;
+    @Column(name="enabled",nullable = false)
+    private Integer enabled;
 
     @Column(name="role_id")
-    private int roleId;
+    private Integer roleId;
 
     public User() {
 
     }
 
-    public User(String userName, String password, String email, int enabled, int roleId) {
+    public User(String userName, String password, String email, Integer enabled, Integer roleId) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -38,11 +40,11 @@ public class User {
         this.roleId = roleId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,19 +72,19 @@ public class User {
         this.email = email;
     }
 
-    public int getEnabled() {
+    public Integer getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(int enabled) {
+    public void setEnabled(Integer enabled) {
         this.enabled = enabled;
     }
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

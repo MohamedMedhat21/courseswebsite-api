@@ -8,12 +8,12 @@ import com.medhat.springboot.courseswebsite.entity.User;
 import java.util.List;
 
 public interface UsersService {
-    public List<User> findAll();
-    public User findById(int userId);
-    public void saveUser(User user);
+    public List<User> getAll();
+    public User getById(int userId);
+    public User saveUser(User user);
     public void deleteById(int userId);
 
-    public List<Course> findInstructorCourses(int userId);
+    public List<Course> getInstructorCourses(int userId);
 
-    public List<StudentCoursesData> findEnrolledCourses(int userId);
+    public List<StudentCoursesData> getEnrolledCourses(int userId);
 }
