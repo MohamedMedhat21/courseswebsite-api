@@ -3,12 +3,10 @@ package com.medhat.springboot.courseswebsite.service;
 
 import com.medhat.springboot.courseswebsite.dao.CoursesRepository;
 import com.medhat.springboot.courseswebsite.dao.StudentCoursesDataRepository;
-import com.medhat.springboot.courseswebsite.dao.StudentCoursesRepository;
 import com.medhat.springboot.courseswebsite.dao.UsersRepository;
 import com.medhat.springboot.courseswebsite.entity.Course;
-import com.medhat.springboot.courseswebsite.entity.StudentCourses;
 import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
-import com.medhat.springboot.courseswebsite.entity.User;
+import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +30,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @Transactional
-    public List<User> getAll() {
+    public List<Users> getAll() {
         return usersRepository.findAll();
     }
 
@@ -65,23 +63,23 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     @Transactional
-    public User getById(int userId) {
-        Optional<User> result = usersRepository.findById(userId);
+    public Users getById(int userId) {
+        Optional<Users> result = usersRepository.findById(userId);
 
-        User user;
+        Users users;
 
         if(result.isPresent())
-            user =  result.get();
+            users =  result.get();
         else
             throw new NotFoundException("User with Id:"+userId+" not found");
 
-        return user;
+        return users;
     }
 
     @Override
     @Transactional
-    public User saveUser(User user) {
-        return usersRepository.save(user);
+    public Users saveUser(Users users) {
+        return usersRepository.save(users);
     }
 
     @Override
