@@ -4,11 +4,18 @@ package com.medhat.springboot.courseswebsite.rest;
 import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.Users;
+import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
+import com.medhat.springboot.courseswebsite.exception.NotFoundException;
+import com.medhat.springboot.courseswebsite.securingweb.WebSecurityConfig;
+import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,8 +35,13 @@ public class UsersRestController {
     }
 
     @GetMapping("/users/{userId}")
-    public Users getById(@PathVariable int userId){
-        return usersService.getById(userId);
+    public Users getById(@PathVariable int userId, Principal principal) {
+
+        if(WebSecurityPermissions.hasPermission(principal,userId,usersService.getById(userId).getUserName()))
+            return usersService.getById(userId);
+        else{
+            throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
+        }
     }
 
 

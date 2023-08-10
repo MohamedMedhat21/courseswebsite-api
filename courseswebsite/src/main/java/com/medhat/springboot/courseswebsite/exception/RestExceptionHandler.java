@@ -24,6 +24,21 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(NotAuthorizedException exc) {
+
+        // create a StudentErrorResponse
+
+        ErrorResponse error = new ErrorResponse();
+
+        error.setStatus(HttpStatus.UNAUTHORIZED.value());
+        error.setMessage(exc.getMessage());
+        error.setTimeStamp(System.currentTimeMillis());
+
+        // return ResponseEntity
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
     // add another exception handler ... to catch any exception (catch all)
 
     @ExceptionHandler
