@@ -44,7 +44,7 @@ CREATE TABLE `course` (
 `description` varchar(200) NOT NULL,
 `instructor_id` int,
 PRIMARY KEY (`id`),
-CONSTRAINT `instructor_fk` FOREIGN KEY (`instructor_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT
+CONSTRAINT `instructor_fk` FOREIGN KEY (`instructor_id`) REFERENCES `users` (`id`) ON DELETE restrict
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -65,7 +65,7 @@ CREATE TABLE `student_courses` (
 `enrollment_date` varchar(50) NOT NULL,
 PRIMARY KEY (`id`),
 CONSTRAINT `crs_fk` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE RESTRICT,
-CONSTRAINT `usr_fk` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT
+CONSTRAINT `usr_fk` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `courses_website`.`student_courses` (`course_id`,`users_id`,`enrollment_date`)

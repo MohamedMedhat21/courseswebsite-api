@@ -12,14 +12,35 @@ public class WebSecurityPermissions {
     public WebSecurityPermissions() {
     }
 
-    public static boolean hasPermission(Principal principal,int userId,String currentUserName){
+    public static boolean hasPermission(Principal principal,String currentUserName,String roleToCheck){
+
+        if(hasRole(roleToCheck) || isCurrentUser(principal,currentUserName))
+            return true;
+        else{
+            return false;
+        }
+
+    }
+
+    public static boolean isCurrentUser(Principal principal,String currentUserName){
+
+        boolean isCurrentUsr= principal.getName().equals(currentUserName);
+
+        if(isCurrentUsr)
+            return true;
+        else{
+            return false;
+        }
+
+    }
+
+    public static boolean hasRole(String roleToCheck){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean hasAdminRole = authentication.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        boolean isCurrentUser= principal.getName().equals(currentUserName);
+        boolean hasRolee = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(roleToCheck));
 
-        if(hasAdminRole || isCurrentUser)
+        if(hasRolee)
             return true;
         else{
             return false;

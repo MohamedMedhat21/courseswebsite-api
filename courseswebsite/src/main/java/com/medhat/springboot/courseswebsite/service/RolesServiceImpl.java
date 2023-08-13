@@ -42,6 +42,14 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     @Transactional
+    public Role getByName(String roleName) {
+        Role result = rolesRepository.findByName(roleName);
+
+        return result;
+    }
+
+    @Override
+    @Transactional
     public void saveRole(Role role) {
         rolesRepository.save(role);
     }

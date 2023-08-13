@@ -1,5 +1,9 @@
 package com.medhat.springboot.courseswebsite.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +18,7 @@ public class Users {
     @Column(name="username")
     private String userName;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name="password")
     private String password;
 

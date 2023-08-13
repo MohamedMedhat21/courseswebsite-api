@@ -10,13 +10,13 @@ public class StudentCourses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="course_id")
-    private int courseId;
+    private Integer courseId;
 
     @Column(name="user_id")
-    private int userId;
+    private Integer userId;
 
     @Column(name="enrollment_date")
     private Date enrollmentDate;
@@ -25,33 +25,33 @@ public class StudentCourses {
 
     }
 
-    public StudentCourses(int courseId, int userId, Date enrollmentDate) {
+    public StudentCourses(Integer courseId, Integer userId, Date enrollmentDate) {
         this.courseId = courseId;
         this.userId = userId;
         this.enrollmentDate = enrollmentDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

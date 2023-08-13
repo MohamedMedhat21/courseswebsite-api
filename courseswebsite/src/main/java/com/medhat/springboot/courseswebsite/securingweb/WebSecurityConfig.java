@@ -56,9 +56,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"/api/users").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.POST,"/api/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/**/users/").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/**/users/**").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.DELETE,"/**/users/**").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.POST).hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated().and()
                 .httpBasic();

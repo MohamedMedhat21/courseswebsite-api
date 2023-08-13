@@ -10,12 +10,12 @@ import java.util.Date;
 
 @Entity
 @Table(name="student_courses_data")
-@JsonIgnoreProperties({"userId","userName"})
+//@JsonIgnoreProperties({"userId","userName"})
 public class StudentCoursesData {
 
     @Id
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="username")
     private String userName;
@@ -26,14 +26,14 @@ public class StudentCoursesData {
     @Column(name="enrollment_date")
     private Date enrollmentDate;
 
-    @Column(name="user_id")
-    private int userId;
+    @Column(name="users_id")
+    private Integer userId;
 
     public StudentCoursesData() {
 
     }
 
-    public StudentCoursesData(int id, String userName, String courseName, Date enrollmentDate, int userId) {
+    public StudentCoursesData(Integer id, String userName, String courseName, Date enrollmentDate, Integer userId) {
         this.id = id;
         this.userName = userName;
         this.courseName = courseName;
@@ -41,11 +41,11 @@ public class StudentCoursesData {
         this.userId = userId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -73,11 +73,11 @@ public class StudentCoursesData {
         this.enrollmentDate = enrollmentDate;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
