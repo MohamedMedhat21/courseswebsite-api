@@ -15,4 +15,6 @@ public interface UsersService {
     public List<Course> getInstructorCourses(int userId);
 
     public List<StudentCoursesData> getEnrolledCourses(int userId);
+
+    public Users getByUserName(String userName);
 }

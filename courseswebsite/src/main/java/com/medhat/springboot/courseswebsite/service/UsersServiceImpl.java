@@ -62,6 +62,20 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Users getByUserName(String userName) {
+        Optional<Users> result = usersRepository.findByUserName(userName);
+
+        Users users;
+
+        if(result.isPresent())
+            users =  result.get();
+        else
+            throw new NotFoundException("User with Id:"+userName+" not found");
+
+        return users;
+    }
+
+    @Override
     @Transactional
     public Users getById(int userId) {
         Optional<Users> result = usersRepository.findById(userId);
