@@ -168,7 +168,16 @@ public class UsersRestController {
 
     @PostMapping("/users")
     public Users addUser(@RequestBody Users users){
-        return usersService.saveUser(users);
+        Users currentUser = null;
+        try {
+            usersService.getByUserName(users.getUserName());
+        }
+        catch (RuntimeException exception){
+            currentUser = usersService.saveUser(users);
+        }
+        if (currentUser==null)
+            throw new RuntimeException("username is already in use, please choose another one");
+        return currentUser;
     }
 
     @PutMapping("/users")
