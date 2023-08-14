@@ -49,6 +49,21 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    @Transactional
+    public Course getInstructorCourseById(int courseId) {
+        Optional<Course> result = coursesRepository.findById(courseId);
+
+        Course course;
+
+        if(result.isPresent())
+            course =  result.get();
+        else
+            throw new NotFoundException("course with Id:"+courseId+" not found");
+
+        return course;
+    }
+
+    @Override
     public List<StudentCoursesData> getEnrolledCourses(int userId) {
 
         getById(userId);
@@ -73,6 +88,22 @@ public class UsersServiceImpl implements UsersService {
             throw new NotFoundException("User with Id:"+userName+" not found");
 
         return users;
+    }
+
+    @Override
+    @Transactional
+    public Course addInstructorCourse(Course course) {
+        return coursesRepository.save(course);
+    }
+
+    @Override
+    public void deleteInstructorCourseById(int courseId) {
+        coursesRepository.deleteById(courseId);
+    }
+
+    @Override
+    public StudentCoursesData getEnrolledCourseByCourseId(int courseId) {
+        return studentCoursesDataRepository.findByCourseId(courseId);
     }
 
     @Override

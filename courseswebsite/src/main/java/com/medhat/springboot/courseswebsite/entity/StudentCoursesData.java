@@ -23,6 +23,9 @@ public class StudentCoursesData {
     @Column(name="course_name")
     private String courseName;
 
+    @Column(name="course_id")
+    private Integer courseId;
+
     @Column(name="enrollment_date")
     private Date enrollmentDate;
 
@@ -33,10 +36,11 @@ public class StudentCoursesData {
 
     }
 
-    public StudentCoursesData(Integer id, String userName, String courseName, Date enrollmentDate, Integer userId) {
+    public StudentCoursesData(Integer id, String userName, String courseName, Integer courseId, Date enrollmentDate, Integer userId) {
         this.id = id;
         this.userName = userName;
         this.courseName = courseName;
+        this.courseId = courseId;
         this.enrollmentDate = enrollmentDate;
         this.userId = userId;
     }
@@ -81,12 +85,21 @@ public class StudentCoursesData {
         this.userId = userId;
     }
 
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
+    }
+
     @Override
     public String toString() {
         return "StudentCoursesData{" +
                 "id=" + id +
-                ", userName=" + userName +
-                ", courseName=" + courseName +
+                ", userName='" + userName + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", courseId=" + courseId +
                 ", enrollmentDate=" + enrollmentDate +
                 ", userId=" + userId +
                 '}';

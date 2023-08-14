@@ -51,4 +51,10 @@ public class CoursesServiceImpl implements CoursesService{
     public void deleteById(int courseId) {
         coursesRepository.deleteById(courseId);
     }
+
+    @Override
+    @Transactional
+    public Course findByName(String name) {
+        return coursesRepository.findByName(name);
+    }
 }

@@ -59,7 +59,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/**/users/").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.POST,"/**/users/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/**/users").hasAuthority("ADMIN")
                 .antMatchers("/**/roles/**").hasAuthority("ADMIN")
 //                .antMatchers(HttpMethod.DELETE,"/**/users/**").hasAuthority("ADMIN")
                 .anyRequest()

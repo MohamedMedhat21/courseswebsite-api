@@ -15,7 +15,7 @@ public class StudentCourses {
     @Column(name="course_id")
     private Integer courseId;
 
-    @Column(name="user_id")
+    @Column(name="users_id")
     private Integer userId;
 
     @Column(name="enrollment_date")

@@ -9,4 +9,6 @@ public interface CoursesService {
     public Course getById(int courseId);
     public void saveCourse(Course course);
     public void deleteById(int courseId);
+
+    public Course findByName(String name);
 }

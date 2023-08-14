@@ -3,6 +3,7 @@ package com.medhat.springboot.courseswebsite.securingweb;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
 
@@ -14,7 +15,7 @@ public class WebSecurityPermissions {
 
     public static boolean hasPermission(Principal principal,String currentUserName,String roleToCheck){
 
-        if(hasRole(roleToCheck) || isCurrentUser(principal,currentUserName))
+        if(hasRole(roleToCheck) || isCurrentUser(currentUserName))
             return true;
         else{
             return false;
@@ -22,9 +23,10 @@ public class WebSecurityPermissions {
 
     }
 
-    public static boolean isCurrentUser(Principal principal,String currentUserName){
-
-        boolean isCurrentUsr= principal.getName().equals(currentUserName);
+    public static boolean isCurrentUser(String currentUserName){
+        Object principals  = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principals;
+        boolean isCurrentUsr= userDetails.getUsername().equals(currentUserName);
 
         if(isCurrentUsr)
             return true;
