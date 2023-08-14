@@ -13,7 +13,7 @@ public class WebSecurityPermissions {
     public WebSecurityPermissions() {
     }
 
-    public static boolean hasPermission(Principal principal,String currentUserName,String roleToCheck){
+    public static boolean hasPermission(String currentUserName,String roleToCheck){
 
         if(hasRole(roleToCheck) || isCurrentUser(currentUserName))
             return true;

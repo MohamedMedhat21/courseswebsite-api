@@ -106,6 +106,12 @@ public class UsersServiceImpl implements UsersService {
         return studentCoursesDataRepository.findByCourseId(courseId);
     }
 
+//    @Override
+//    @Transactional
+//    public void deleteStudentEnrollmentById(int courseId) {
+//        return studentCoursesDataRepository.deleteByCourseId(courseId);
+//    }
+
     @Override
     @Transactional
     public Users getById(int userId) {

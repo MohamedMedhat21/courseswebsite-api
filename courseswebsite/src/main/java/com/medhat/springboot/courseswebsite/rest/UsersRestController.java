@@ -55,7 +55,7 @@ public class UsersRestController {
     @GetMapping("/users/{userId}")
     public Users getById(@PathVariable int userId, Principal principal) {
 
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getById(userId);
         else{
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -65,7 +65,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/mycourses")
     public List<Course> getInstructorCourses(@PathVariable int userId,Principal principal){
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getInstructorCourses(userId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -74,7 +74,7 @@ public class UsersRestController {
     @GetMapping("/users/{userId}/mycourses/{courseId}")
     public Course getInstructorCourseById(@PathVariable int userId,@PathVariable int courseId,Principal principal){
 
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getInstructorCourseById(courseId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -105,7 +105,7 @@ public class UsersRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteInstructorCourseById(@PathVariable int userId,@PathVariable int courseId,Principal principal){
 
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             usersService.deleteInstructorCourseById(courseId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -113,7 +113,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/enrollments")
     public List<StudentCoursesData> getEnrolledCourses(@PathVariable int userId,Principal principal){
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getEnrolledCourses(userId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -121,7 +121,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/enrollments/{courseId}")
     public StudentCoursesData getEnrolledCourses(@PathVariable int userId,@PathVariable int courseId, Principal principal){
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getEnrolledCourseByCourseId(courseId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -154,6 +154,18 @@ public class UsersRestController {
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
     }
 
+    @DeleteMapping("/users/{userId}/enrollments/{enrollmentId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteStudentEnrollmentById(@PathVariable int userId,@PathVariable int enrollmentId){
+
+        if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUserName())){
+
+            studentCoursesService.deleteById(enrollmentId);
+        }
+        else
+            throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
+    }
+
     @PostMapping("/users")
     public Users addUser(@RequestBody Users users){
         return usersService.saveUser(users);
@@ -171,7 +183,7 @@ public class UsersRestController {
                 proceed=false;
         }
 
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(users.getId()).getUserName(),"ADMIN")&&proceed){
+        if(WebSecurityPermissions.hasPermission(usersService.getById(users.getId()).getUserName(),"ADMIN")&&proceed){
             if (dbUsers !=null){
                 users.setPassword(dbUsers.getPassword());
                 if(!WebSecurityPermissions.hasRole("ADMIN")){
@@ -194,7 +206,7 @@ public class UsersRestController {
         if(usersService.getById(userId).getRoleId() == rolesService.getByName("ADMIN").getId())
             proceed=false;
 
-        if(WebSecurityPermissions.hasPermission(principal,usersService.getById(userId).getUserName(),"ADMIN")&&proceed)
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")&&proceed)
         {
                 usersService.deleteById(userId);
         }

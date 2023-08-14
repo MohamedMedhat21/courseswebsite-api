@@ -26,4 +26,6 @@ public interface UsersService {
     public void deleteInstructorCourseById(int courseId);
 
     public StudentCoursesData getEnrolledCourseByCourseId(int courseId);
+
+//    void deleteStudentEnrollmentById(int courseId);
 }

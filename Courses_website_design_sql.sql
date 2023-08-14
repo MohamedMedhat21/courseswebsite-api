@@ -74,8 +74,7 @@ VALUES
 (2,5,date_add(current_date(),INTERVAL 15 DAY)),
 (3,5,date_add(current_date(),INTERVAL 20 DAY)),
 (3,6,date_add(current_date(),INTERVAL 25 DAY)),
-(4,6,date_add(current_date(),INTERVAL 30 DAY)),
-(4,6,date_add(current_date(),INTERVAL 35 DAY));
+(4,6,date_add(current_date(),INTERVAL 30 DAY));
 
 
 CREATE VIEW student_courses_data AS
@@ -83,6 +82,7 @@ SELECT
 courses_website.student_courses.id,
 courses_website.users.username,
 courses_website.course.name course_name,
+courses_website.course.id course_id,
 courses_website.student_courses.enrollment_date,
 courses_website.student_courses.users_id
 FROM courses_website.users,courses_website.course,courses_website.student_courses
