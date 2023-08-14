@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -34,6 +37,12 @@ public class WebSecurityConfig {
     @Autowired
     private DataSource dataSource;
 
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -43,25 +52,15 @@ public class WebSecurityConfig {
         ;
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-////                .antMatchers(HttpMethod.GET,"/api/users").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.POST,"/api/users").permitAll()
-//                .anyRequest().authenticated()
-//                .and().httpBasic();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/**/users/").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST,"/**/users").hasAuthority("ADMIN")
                 .antMatchers("/**/roles/**").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.DELETE,"/**/users/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated().and()
                 .httpBasic();

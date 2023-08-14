@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,6 +27,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,6 +48,38 @@ public class UsersRestController {
         this.coursesService = coursesService;
         this.studentCoursesService = studentCoursesService;
     }
+
+//    @PostMapping("/users/resetRequest")
+//    public String resetPasswordRequest(@RequestBody Map<String,Object>payload){
+//
+//        String userName = payload.get("userName").toString();
+//        Users user = usersService.getByUserName(userName);
+//
+//
+//
+//        PasswordResetToken token = new PasswordResetToken();
+//        token.setToken(UUID.randomUUID().toString());
+//        token.setUser(user);
+//        token.setExpiryDate(30);
+//        passwordResetTokenRepository.save(token);
+//
+//        Mail mail = new Mail();
+//        Map<String, Object> modelObj = new HashMap<>();
+//        modelObj.put("token",token);
+//        modelObj.put("user", user);
+//        String url =
+//                request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+//        modelObj.put("resetUrl", url + "/resetpassword?token=" + token.getToken());
+//        mail.setModel(modelObj);
+//        emailService.sendEmail(mail);
+//        return token;
+//    }
+
+
+
+
+
+
 
     @GetMapping("/users")
     public List<Users> getAll(){
@@ -173,6 +207,10 @@ public class UsersRestController {
             usersService.getByUserName(users.getUserName());
         }
         catch (RuntimeException exception){
+            String p = new String(new BCryptPasswordEncoder().encode(users.getPassword()));
+//            System.out.println(p);
+//            System.out.println("--------------------------------");
+            users.setPassword(p);
             currentUser = usersService.saveUser(users);
         }
         if (currentUser==null)
@@ -182,7 +220,7 @@ public class UsersRestController {
 
     @PutMapping("/users")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateUser(@RequestBody Users users,Principal principal){
+    public void updateUser(@RequestBody Users users){
         Users dbUsers = usersService.getById(users.getId());
 
         boolean proceed = true;
@@ -191,6 +229,11 @@ public class UsersRestController {
             if(!WebSecurityPermissions.isCurrentUser(users.getUserName()))
                 proceed=false;
         }
+
+        Object principals  = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principals;
+        System.out.println(userDetails.getAuthorities());
+        System.out.println("----------------------------------");
 
         if(WebSecurityPermissions.hasPermission(usersService.getById(users.getId()).getUserName(),"ADMIN")&&proceed){
             if (dbUsers !=null){

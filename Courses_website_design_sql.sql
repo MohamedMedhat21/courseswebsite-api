@@ -16,7 +16,7 @@ CREATE TABLE `role` (
 CREATE TABLE `users` (
 `id` int NOT NULL AUTO_INCREMENT,
 `username` varchar(50) NOT NULL,
-`password` varchar(50) NOT NULL,
+`password` varchar(200) NOT NULL,
 `email` varchar(50) NOT NULL,
 `enabled` tinyint NOT NULL,
 `role_id` int,
@@ -30,12 +30,12 @@ VALUES ('ADMIN'),('INSTRUCTOR'),('STUDENT');
 
 INSERT INTO `courses_website`.`users` (`username`,`password`,`email`,`enabled`,`role_id`)
 VALUES
-('moha','{noop}test123','moha@gmail.com',1,1),
-('boha','{noop}test123','boha@gmail.com',1,1),
-('joha','{noop}test123','joha@gmail.com',1,2),
-('soha','{noop}test123','soha@gmail.com',1,2),
-('noha','{noop}test123','noha@gmail.com',1,3),
-('doha','{noop}test123','doha@gmail.com',1,3);
+('moha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','moha@gmail.com',1,1),
+('boha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','boha@gmail.com',1,1),
+('joha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','joha@gmail.com',1,2),
+('soha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','soha@gmail.com',1,2),
+('noha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','noha@gmail.com',1,3),
+('doha','$2a$05$o9PnzMD9N0DtlU1atThiAeI5iqBPFv6TmIAfvtIaOmaEFNbjsjSFq','doha@gmail.com',1,3);
 
 
 CREATE TABLE `course` (
