@@ -31,7 +31,6 @@ public class RolesRestController {
 
     @PostMapping("/roles")
     public Role addRole(@RequestBody Role role){
-        role.setId(0);
         rolesService.saveRole(role);
         return role;
     }
