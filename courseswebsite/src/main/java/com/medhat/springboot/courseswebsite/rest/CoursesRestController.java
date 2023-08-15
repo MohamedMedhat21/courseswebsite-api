@@ -5,9 +5,13 @@ import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
+import com.medhat.springboot.courseswebsite.securingweb.utils.Constants;
 import com.medhat.springboot.courseswebsite.service.CoursesService;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +33,9 @@ public class CoursesRestController {
     }
 
     @GetMapping("/courses")
-    public List<Course> findAll(){
-        return coursesService.getAll();
+    public List<Course> findAll(@RequestParam("p") int pageNumber,@RequestParam("s") String sortField){
+        Pageable paginationSettings = PageRequest.of(pageNumber, Constants.COURSE_PAGE_SIZE, Sort.by(sortField));
+        return coursesService.getAll(paginationSettings).getContent();
     }
 
     @GetMapping("/courses/{courseId}")

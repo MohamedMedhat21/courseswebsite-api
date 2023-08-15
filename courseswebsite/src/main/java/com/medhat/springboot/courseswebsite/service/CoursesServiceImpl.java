@@ -4,6 +4,8 @@ package com.medhat.springboot.courseswebsite.service;
 import com.medhat.springboot.courseswebsite.dao.CoursesRepository;
 import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.exception.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,8 @@ public class CoursesServiceImpl implements CoursesService{
 
     @Override
     @Transactional
-    public List<Course> getAll() {
-        return coursesRepository.findAll();
+    public Page<Course> getAll(Pageable pageable) {
+        return coursesRepository.findAll(pageable);
     }
 
     @Override
