@@ -4,6 +4,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.stream.Collectors;
+
 public class WebSecurityPermissions {
 
 
@@ -47,4 +49,15 @@ public class WebSecurityPermissions {
 
     }
 
+    public static String getRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String Role = authentication.getAuthorities().stream().collect(Collectors.toList()).get(0).toString();
+        return Role;
+    }
+
+    public static String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String Role = authentication.getAuthorities().stream().collect(Collectors.toList()).get(0).toString();
+        return Role;
+    }
 }

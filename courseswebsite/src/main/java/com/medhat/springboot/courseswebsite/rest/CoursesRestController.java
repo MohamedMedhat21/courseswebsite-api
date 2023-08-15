@@ -1,6 +1,7 @@
 package com.medhat.springboot.courseswebsite.rest;
 
 
+import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
@@ -33,8 +34,13 @@ public class CoursesRestController {
     }
 
     @GetMapping("/courses/{courseId}")
-    public Course findById(@PathVariable int courseId){
-        return coursesService.getById(courseId);
+    public CourseDTO findById(@PathVariable int courseId){
+
+        Course course = coursesService.getById(courseId);
+
+        CourseDTO courseDTO = new CourseDTO(courseId,course.getName(),course.getDescription());
+
+        return courseDTO;
     }
 
     @PostMapping("/courses")

@@ -1,6 +1,8 @@
 package com.medhat.springboot.courseswebsite.rest;
 
 
+import com.medhat.springboot.courseswebsite.dto.CourseDTO;
+import com.medhat.springboot.courseswebsite.dto.UserDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.entity.StudentCourses;
 import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,10 +55,13 @@ public class UsersRestController {
     }
 
     @GetMapping("/users/{userId}")
-    public Users getById(@PathVariable int userId, Principal principal) {
+    public UserDTO getById(@PathVariable int userId) {
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
-            return usersService.getById(userId);
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")){
+            Users users = usersService.getById(userId);
+            UserDTO userDTO = new UserDTO(userId,users.getUserName(),users.getEmail(),WebSecurityPermissions.getRole());
+            return userDTO;
+        }
         else{
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
         }
@@ -63,15 +69,26 @@ public class UsersRestController {
 
 
     @GetMapping("/users/{userId}/mycourses")
-    public List<Course> getInstructorCourses(@PathVariable int userId,Principal principal){
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
-            return usersService.getInstructorCourses(userId);
+    public List<CourseDTO> getInstructorCourses(@PathVariable int userId){
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")){
+
+            List<Course> courses = usersService.getInstructorCourses(userId);
+
+            List<CourseDTO> courseDTOS = new ArrayList<>();
+
+            for (Course course:courses) {
+                CourseDTO courseDTO = new CourseDTO(course.getId(),course.getName(),course.getDescription());
+                courseDTOS.add(courseDTO);
+            }
+
+            return courseDTOS;
+        }
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
     }
 
     @GetMapping("/users/{userId}/mycourses/{courseId}")
-    public Course getInstructorCourseById(@PathVariable int userId,@PathVariable int courseId,Principal principal){
+    public Course getInstructorCourseById(@PathVariable int userId,@PathVariable int courseId){
 
         if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getInstructorCourseById(courseId);
@@ -102,7 +119,7 @@ public class UsersRestController {
 
     @DeleteMapping("/users/{userId}/mycourses/{courseId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteInstructorCourseById(@PathVariable int userId,@PathVariable int courseId,Principal principal){
+    public void deleteInstructorCourseById(@PathVariable int userId,@PathVariable int courseId){
 
         if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             usersService.deleteInstructorCourseById(courseId);
@@ -111,7 +128,7 @@ public class UsersRestController {
     }
 
     @GetMapping("/users/{userId}/enrollments")
-    public List<StudentCoursesData> getEnrolledCourses(@PathVariable int userId,Principal principal){
+    public List<StudentCoursesData> getEnrolledCourses(@PathVariable int userId){
         if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getEnrolledCourses(userId);
         else
@@ -119,7 +136,7 @@ public class UsersRestController {
     }
 
     @GetMapping("/users/{userId}/enrollments/{courseId}")
-    public StudentCoursesData getEnrolledCourses(@PathVariable int userId,@PathVariable int courseId, Principal principal){
+    public StudentCoursesData getEnrolledCourses(@PathVariable int userId,@PathVariable int courseId){
         if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
             return usersService.getEnrolledCourseByCourseId(courseId);
         else
@@ -214,7 +231,7 @@ public class UsersRestController {
     }
 
     @DeleteMapping("/users/{userId}")
-    public int deleteById(@PathVariable int userId,Principal principal){
+    public int deleteById(@PathVariable int userId){
 
         boolean proceed = true;
 
