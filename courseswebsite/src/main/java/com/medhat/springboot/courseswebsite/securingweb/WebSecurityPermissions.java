@@ -1,11 +1,8 @@
 package com.medhat.springboot.courseswebsite.securingweb;
 
-import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.security.Principal;
 
 public class WebSecurityPermissions {
 

@@ -1,10 +1,8 @@
 package com.medhat.springboot.courseswebsite.dao;
 
-import com.medhat.springboot.courseswebsite.entity.StudentCourses;
 import com.medhat.springboot.courseswebsite.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 

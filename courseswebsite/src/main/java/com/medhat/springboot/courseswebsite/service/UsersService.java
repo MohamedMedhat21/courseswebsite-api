@@ -5,7 +5,6 @@ import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.Users;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UsersService {
     public List<Users> getAll();

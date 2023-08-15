@@ -7,7 +7,6 @@ import com.medhat.springboot.courseswebsite.entity.StudentCoursesData;
 import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.exception.NotFoundException;
-import com.medhat.springboot.courseswebsite.securingweb.WebSecurityConfig;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
 import com.medhat.springboot.courseswebsite.service.CoursesService;
 import com.medhat.springboot.courseswebsite.service.RolesService;
@@ -15,7 +14,6 @@ import com.medhat.springboot.courseswebsite.service.StudentCoursesService;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,8 +25,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -48,37 +44,6 @@ public class UsersRestController {
         this.coursesService = coursesService;
         this.studentCoursesService = studentCoursesService;
     }
-
-//    @PostMapping("/users/resetRequest")
-//    public String resetPasswordRequest(@RequestBody Map<String,Object>payload){
-//
-//        String userName = payload.get("userName").toString();
-//        Users user = usersService.getByUserName(userName);
-//
-//
-//
-//        PasswordResetToken token = new PasswordResetToken();
-//        token.setToken(UUID.randomUUID().toString());
-//        token.setUser(user);
-//        token.setExpiryDate(30);
-//        passwordResetTokenRepository.save(token);
-//
-//        Mail mail = new Mail();
-//        Map<String, Object> modelObj = new HashMap<>();
-//        modelObj.put("token",token);
-//        modelObj.put("user", user);
-//        String url =
-//                request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-//        modelObj.put("resetUrl", url + "/resetpassword?token=" + token.getToken());
-//        mail.setModel(modelObj);
-//        emailService.sendEmail(mail);
-//        return token;
-//    }
-
-
-
-
-
 
 
     @GetMapping("/users")
@@ -208,8 +173,6 @@ public class UsersRestController {
         }
         catch (RuntimeException exception){
             String p = new String(new BCryptPasswordEncoder().encode(users.getPassword()));
-//            System.out.println(p);
-//            System.out.println("--------------------------------");
             users.setPassword(p);
             currentUser = usersService.saveUser(users);
         }

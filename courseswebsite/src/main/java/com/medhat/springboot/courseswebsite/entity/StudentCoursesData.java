@@ -1,7 +1,5 @@
 package com.medhat.springboot.courseswebsite.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

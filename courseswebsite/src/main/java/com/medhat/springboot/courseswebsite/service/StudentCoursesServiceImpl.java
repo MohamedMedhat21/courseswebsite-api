@@ -1,9 +1,7 @@
 package com.medhat.springboot.courseswebsite.service;
 
 
-import com.medhat.springboot.courseswebsite.dao.CoursesRepository;
 import com.medhat.springboot.courseswebsite.dao.StudentCoursesRepository;
-import com.medhat.springboot.courseswebsite.entity.Course;
 import com.medhat.springboot.courseswebsite.entity.StudentCourses;
 import com.medhat.springboot.courseswebsite.exception.NotFoundException;
 import org.springframework.stereotype.Service;
