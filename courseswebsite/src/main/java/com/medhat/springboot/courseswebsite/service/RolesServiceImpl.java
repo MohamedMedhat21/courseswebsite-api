@@ -43,7 +43,7 @@ public class RolesServiceImpl implements RolesService {
     @Override
     @Transactional
     public Role getByName(String roleName) {
-        Role result = rolesRepository.findByName(roleName);
+        Role result = rolesRepository.findByName(roleName).get();
 
         return result;
     }

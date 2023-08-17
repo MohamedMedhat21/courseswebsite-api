@@ -1,6 +1,8 @@
 package com.medhat.springboot.courseswebsite.rest;
 
 
+import com.medhat.springboot.courseswebsite.auth.RegisterRequest;
+import com.medhat.springboot.courseswebsite.dao.RolesRepository;
 import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.dto.UserDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
@@ -14,6 +16,7 @@ import com.medhat.springboot.courseswebsite.service.CoursesService;
 import com.medhat.springboot.courseswebsite.service.RolesService;
 import com.medhat.springboot.courseswebsite.service.StudentCoursesService;
 import com.medhat.springboot.courseswebsite.service.UsersService;
+import com.medhat.springboot.courseswebsite.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +24,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -40,12 +42,15 @@ public class UsersRestController {
 
     private StudentCoursesService studentCoursesService;
 
+    private RolesRepository rolesRepository;
+
     @Autowired
-    public UsersRestController(UsersService usersService,RolesService rolesService,CoursesService coursesService,StudentCoursesService studentCoursesService) {
+    public UsersRestController(UsersService usersService,RolesService rolesService,CoursesService coursesService,StudentCoursesService studentCoursesService,RolesRepository rolesRepository) {
         this.usersService = usersService;
         this.rolesService = rolesService;
         this.coursesService = coursesService;
         this.studentCoursesService = studentCoursesService;
+        this.rolesRepository = rolesRepository;
     }
 
 
@@ -57,9 +62,9 @@ public class UsersRestController {
     @GetMapping("/users/{userId}")
     public UserDTO getById(@PathVariable int userId) {
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")){
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN")){
             Users users = usersService.getById(userId);
-            UserDTO userDTO = new UserDTO(userId,users.getUserName(),users.getEmail(),WebSecurityPermissions.getRole());
+            UserDTO userDTO = new UserDTO(userId,users.getUsername(),users.getEmail(),users.getAuthorities().toString());
             return userDTO;
         }
         else{
@@ -70,7 +75,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/mycourses")
     public List<CourseDTO> getInstructorCourses(@PathVariable int userId){
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")){
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN")){
 
             List<Course> courses = usersService.getInstructorCourses(userId);
 
@@ -90,15 +95,19 @@ public class UsersRestController {
     @GetMapping("/users/{userId}/mycourses/{courseId}")
     public Course getInstructorCourseById(@PathVariable int userId,@PathVariable int courseId){
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
-            return usersService.getInstructorCourseById(courseId);
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN")){
+            Course course = usersService.getInstructorCourseById(courseId);
+            if(userId!=course.getInstructorId())
+                throw new NotFoundException("Course with Id: "+courseId+" not found or created by another instructor");
+            return course;
+        }
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
     }
 
     @PostMapping("/users/{userId}/mycourses")
     public Course addInstructorCourse(@PathVariable int userId, @RequestBody Course course){
-        if(WebSecurityPermissions.hasRole("INSTRUCTOR")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUserName())){
+        if(WebSecurityPermissions.hasRole("INSTRUCTOR")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUsername())){
             course.setInstructorId(userId);
             return usersService.addInstructorCourse(course);
         }
@@ -109,7 +118,7 @@ public class UsersRestController {
     @PutMapping("/users/{userId}/mycourses")
     public Course updateInstructorCourse(@PathVariable int userId, @RequestBody Course course){
         Course dbCourse = coursesService.getById(course.getId());
-        if(WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUserName())&&WebSecurityPermissions.hasRole("INSTRUCTOR")&&dbCourse!=null){
+        if(WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUsername())&&WebSecurityPermissions.hasRole("INSTRUCTOR")&&dbCourse!=null){
             course.setInstructorId(userId);
             return usersService.addInstructorCourse(course);
         }
@@ -121,7 +130,7 @@ public class UsersRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteInstructorCourseById(@PathVariable int userId,@PathVariable int courseId){
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN"))
             usersService.deleteInstructorCourseById(courseId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -129,7 +138,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/enrollments")
     public List<StudentCoursesData> getEnrolledCourses(@PathVariable int userId){
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN"))
             return usersService.getEnrolledCourses(userId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -137,7 +146,7 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/enrollments/{courseId}")
     public StudentCoursesData getEnrolledCourses(@PathVariable int userId,@PathVariable int courseId){
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN"))
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN"))
             return usersService.getEnrolledCourseByCourseId(courseId);
         else
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -145,7 +154,7 @@ public class UsersRestController {
 
     @PostMapping("/users/{userId}/enrollments")
     public StudentCourses addEnrolledCourses(@PathVariable int userId,@RequestBody Map<String, Object> payload){
-        if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUserName())){
+        if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUsername())){
             Course course = coursesService.findByName(payload.get("courseName").toString());
 
             if (course==null)
@@ -174,7 +183,7 @@ public class UsersRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteStudentEnrollmentById(@PathVariable int userId,@PathVariable int enrollmentId){
 
-        if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUserName())){
+        if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUsername())){
 
             studentCoursesService.deleteById(enrollmentId);
         }
@@ -183,14 +192,14 @@ public class UsersRestController {
     }
 
     @PostMapping("/users")
-    public Users addUser(@RequestBody Users users){
+    public Users addUser(@RequestBody RegisterRequest request){
+        String p = new String(new BCryptPasswordEncoder().encode(request.getPassword()));
+        Users users = new Users(request.getUsername(),p,request.getEmail(), Constants.DEFAULT_NEW_USER_ENABLED,rolesRepository.findByName(request.getRolename()).get());
         Users currentUser = null;
         try {
-            usersService.getByUserName(users.getUserName());
+            usersService.getByUserName(users.getUsername());
         }
         catch (RuntimeException exception){
-            String p = new String(new BCryptPasswordEncoder().encode(users.getPassword()));
-            users.setPassword(p);
             currentUser = usersService.saveUser(users);
         }
         if (currentUser==null)
@@ -200,29 +209,38 @@ public class UsersRestController {
 
     @PutMapping("/users")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateUser(@RequestBody Users users){
+    public void updateUser(@RequestBody Map<String,Object> payload){
+        Users users = new Users(payload.get("username").toString(),"",payload.get("email").toString(),Integer.parseInt(payload.get("enabled").toString()),rolesService.getByName(payload.get("rolename").toString()));
+        users.setId(Integer.parseInt(payload.get("id").toString()));
         Users dbUsers = usersService.getById(users.getId());
 
         boolean proceed = true;
 
-        if(usersService.getById(users.getId()).getRoleId() == rolesService.getByName("ADMIN").getId()){
-            if(!WebSecurityPermissions.isCurrentUser(users.getUserName()))
+        System.out.println(payload);
+        // check if edited user is an admin as if yes = block ,no admin can't be edited except for himself
+        if(dbUsers.getRole().getName().equals("ADMIN")){
+            if(!WebSecurityPermissions.isCurrentUser(users.getUsername()))
                 proceed=false;
         }
 
-        Object principals  = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principals;
-        System.out.println(userDetails.getAuthorities());
-        System.out.println("----------------------------------");
+        if(WebSecurityPermissions.hasPermission(dbUsers.getUsername(),"ADMIN")&&proceed){
+            users.setPassword(dbUsers.getPassword());
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(users.getId()).getUserName(),"ADMIN")&&proceed){
-            if (dbUsers !=null){
-                users.setPassword(dbUsers.getPassword());
-                if(!WebSecurityPermissions.hasRole("ADMIN")){
-                    users.setRoleId(dbUsers.getRoleId());
-                }
-                usersService.saveUser(users);
+            // check if the current user is an admin as if yes = he can edit users roles else he can't
+            if(users.getRole().getId()!=dbUsers.getRole().getId()&&!WebSecurityPermissions.hasRole("ADMIN")){
+                throw new NotAuthorizedException("You can't edit user roles unless you are an admin");
             }
+
+            // check if the current user is an admin as if yes = he can edit enabled value else he can't
+            if(users.getEnabled()!=dbUsers.getEnabled()&&!WebSecurityPermissions.hasRole("ADMIN")){
+                throw new NotAuthorizedException("You can't edit enabled value unless you are an admin");
+            }
+
+            if(!users.getUsername().equals(dbUsers.getUsername())){
+                throw new NotAuthorizedException("You can't edit username");
+            }
+
+            usersService.saveUser(users);
         }
         else{
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
@@ -235,12 +253,12 @@ public class UsersRestController {
 
         boolean proceed = true;
 
-        if(usersService.getById(userId).getRoleId() == rolesService.getByName("ADMIN").getId())
+        if(usersService.getById(userId).getRole().getId() == rolesService.getByName("ADMIN").getId())
             proceed=false;
 
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUserName(),"ADMIN")&&proceed)
+        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN")&&proceed)
         {
-                usersService.deleteById(userId);
+            usersService.deleteById(userId);
         }
         else{
             throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");

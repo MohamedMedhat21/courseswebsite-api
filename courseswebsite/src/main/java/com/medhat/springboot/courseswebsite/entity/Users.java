@@ -2,12 +2,22 @@ package com.medhat.springboot.courseswebsite.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name="users")
-public class Users {
+public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,78 +37,57 @@ public class Users {
     @Column(name="enabled",nullable = false)
     private Integer enabled;
 
-    @Column(name="role_id")
-    private Integer roleId;
+    @OneToOne()
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
-    public Users() {
-
-    }
-
-    public Users(String userName, String password, String email, Integer enabled, Integer roleId) {
+    public Users(String userName, String password, String email, Integer enabled, Role role) {
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.enabled = enabled;
-        this.roleId = roleId;
+        this.role = role;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
 
-    public String getUserName() {
-        return userName;
-    }
+        SimpleGrantedAuthority e = new SimpleGrantedAuthority(role.getName());
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+        List<GrantedAuthority> authList = new ArrayList<>();
+        authList.add(e);
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Integer enabled) {
-        this.enabled = enabled;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+        return authList;
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", enabled=" + enabled +
-                ", roleId=" + roleId +
-                '}';
+    public String getUsername() {
+        return userName;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if(this.enabled==1)
+            return true;
+
+        return false;
+    }
+
+
 }

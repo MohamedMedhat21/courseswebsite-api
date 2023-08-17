@@ -1,9 +1,11 @@
 package com.medhat.springboot.courseswebsite.securingweb;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WebSecurityPermissions {
@@ -37,9 +39,10 @@ public class WebSecurityPermissions {
 
     public static boolean hasRole(String roleToCheck){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean hasRolee = authentication.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals(roleToCheck));
+        Object principals = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principals;
+        boolean hasRolee = userDetails.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals(roleToCheck));
+
 
         if(hasRolee)
             return true;

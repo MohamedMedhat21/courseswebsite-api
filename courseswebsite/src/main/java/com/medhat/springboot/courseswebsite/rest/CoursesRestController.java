@@ -57,7 +57,7 @@ public class CoursesRestController {
             coursesService.saveCourse(course);
         }
         else{
-            throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
+            throw new NotAuthorizedException("Access Denied, you don't have permissions to post a course unless you are an instructor");
         }
         return course;
     }
