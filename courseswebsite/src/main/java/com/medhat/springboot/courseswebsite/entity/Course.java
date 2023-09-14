@@ -1,9 +1,17 @@
 package com.medhat.springboot.courseswebsite.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="course")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Course {
 
     @Id
@@ -16,60 +24,21 @@ public class Course {
 
     @Column(name="description")
     private String description;
+    @Column(name="creation_date")
+    private Date creationDate;
+
+    @Column(name="total_hours")
+    private Integer totalHours;
+
+    @Column(name="headline")
+    private String headline;
+
+    @Column(name="image_path")
+    private String imagePath;
 
     @Column(name="instructor_id")
     private Integer instructorId;
 
-    public Course() {
-
-    }
-
-    public Course(String name, String description, Integer instructorId) {
-        this.name = name;
-        this.description = description;
-        this.instructorId = instructorId;
-    }
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getInstructorId() {
-        return instructorId;
-    }
-
-    public void setInstructorId(Integer instructorId) {
-        this.instructorId = instructorId;
-    }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", instructorId=" + instructorId +
-                '}';
-    }
 }
