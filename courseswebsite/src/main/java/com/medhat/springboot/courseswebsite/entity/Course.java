@@ -36,6 +36,9 @@ public class Course {
     @Column(name="image_path")
     private String imagePath;
 
+    @Column(name="course_link")
+    private String courseLink;
+
     @Column(name="instructor_id")
     private Integer instructorId;
 
