@@ -77,11 +77,11 @@ CONSTRAINT `usr_fk` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE
 
 INSERT INTO `courses_website`.`student_courses` (`course_id`,`users_id`,`enrollment_date`)
 VALUES
-(1,5,date_add(current_date(),INTERVAL 10 DAY)),
-(2,5,date_add(current_date(),INTERVAL 15 DAY)),
-(3,5,date_add(current_date(),INTERVAL 20 DAY)),
-(3,6,date_add(current_date(),INTERVAL 25 DAY)),
-(4,6,date_add(current_date(),INTERVAL 30 DAY));
+(1,5,date_sub(current_date(),INTERVAL 10 DAY)),
+(2,5,date_sub(current_date(),INTERVAL 15 DAY)),
+(3,5,date_sub(current_date(),INTERVAL 20 DAY)),
+(3,6,date_sub(current_date(),INTERVAL 25 DAY)),
+(4,6,date_sub(current_date(),INTERVAL 30 DAY));
 
 
 CREATE VIEW student_courses_data AS

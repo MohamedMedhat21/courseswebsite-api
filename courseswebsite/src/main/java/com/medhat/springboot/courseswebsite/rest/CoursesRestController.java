@@ -3,6 +3,7 @@ package com.medhat.springboot.courseswebsite.rest;
 
 import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
+import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
 import com.medhat.springboot.courseswebsite.utils.Constants;
@@ -67,6 +68,21 @@ public class CoursesRestController {
 
 //    @PutMapping("/courses")
 //    public Course updateCourse(@RequestBody Course course){
+//        Course dbCourse = coursesService.getById(course.getId());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//
+//        if(WebSecurityPermissions.hasRole("INSTRUCTOR")){
+//            if(dbCourse.getInstructorId() == auth)
+//            coursesService.saveCourse(course);
+//        }
+//        else{
+//            throw new NotAuthorizedException("Access Denied, you don't have permissions to access other users data");
+//        }
+//        return course;
+//    }
+    //    @PutMapping("/courses")
+//    public Course updateCourse(@RequestBody Course course){
 //        if(WebSecurityPermissions.hasRole("INSTRUCTOR")){
 //            coursesService.saveCourse(course);
 //        }
@@ -75,6 +91,7 @@ public class CoursesRestController {
 //        }
 //        return course;
 //    }
+    //should be implemented in the user rest
 
     @DeleteMapping("/courses/{courseId}")
     public int deleteById(@PathVariable int courseId){
