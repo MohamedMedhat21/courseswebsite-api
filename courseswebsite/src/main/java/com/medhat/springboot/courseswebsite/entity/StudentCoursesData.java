@@ -1,5 +1,9 @@
 package com.medhat.springboot.courseswebsite.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +13,9 @@ import java.util.Date;
 @Entity
 @Table(name="student_courses_data")
 //@JsonIgnoreProperties({"userId","userName"})
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentCoursesData {
 
     @Id
@@ -27,12 +34,11 @@ public class StudentCoursesData {
     @Column(name="enrollment_date")
     private Date enrollmentDate;
 
+    @Column(name="image_path")
+    private String imagePath;
+
     @Column(name="users_id")
     private Integer userId;
-
-    public StudentCoursesData() {
-
-    }
 
     public StudentCoursesData(Integer id, String userName, String courseName, Integer courseId, Date enrollmentDate, Integer userId) {
         this.id = id;
@@ -43,63 +49,4 @@ public class StudentCoursesData {
         this.userId = userId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public Date getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    public void setEnrollmentDate(Date enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    @Override
-    public String toString() {
-        return "StudentCoursesData{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", courseName='" + courseName + '\'' +
-                ", courseId=" + courseId +
-                ", enrollmentDate=" + enrollmentDate +
-                ", userId=" + userId +
-                '}';
-    }
 }

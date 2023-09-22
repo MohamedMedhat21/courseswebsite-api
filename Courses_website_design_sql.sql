@@ -90,6 +90,7 @@ courses_website.student_courses.id,
 courses_website.users.username,
 courses_website.course.name course_name,
 courses_website.course.id course_id,
+courses_website.course.image_path image_path,
 courses_website.student_courses.enrollment_date,
 courses_website.student_courses.users_id
 FROM courses_website.users,courses_website.course,courses_website.student_courses
