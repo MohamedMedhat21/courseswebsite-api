@@ -91,6 +91,7 @@ t1.username,
 courses_website.course.name course_name,
 courses_website.course.id course_id,
 courses_website.course.image_path image_path,
+courses_website.course.headline headline,
 courses_website.student_courses.enrollment_date,
 courses_website.student_courses.users_id,
 t2.username instructor_name
