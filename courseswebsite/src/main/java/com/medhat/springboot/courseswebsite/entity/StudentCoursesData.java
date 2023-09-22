@@ -37,6 +37,12 @@ public class StudentCoursesData {
     @Column(name="image_path")
     private String imagePath;
 
+    @Column(name="instructor_name")
+    private String instructorName;
+
+    @Column(name="headline")
+    private String headline;
+
     @Column(name="users_id")
     private Integer userId;
 

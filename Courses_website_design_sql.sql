@@ -87,15 +87,17 @@ VALUES
 CREATE VIEW student_courses_data AS
 SELECT
 courses_website.student_courses.id,
-courses_website.users.username,
+t1.username,
 courses_website.course.name course_name,
 courses_website.course.id course_id,
 courses_website.course.image_path image_path,
 courses_website.student_courses.enrollment_date,
-courses_website.student_courses.users_id
-FROM courses_website.users,courses_website.course,courses_website.student_courses
+courses_website.student_courses.users_id,
+t2.username instructor_name
+FROM courses_website.users t1,courses_website.users t2,courses_website.course,courses_website.student_courses
 where courses_website.course.id=courses_website.student_courses.course_id and
-courses_website.users.id=courses_website.student_courses.users_id;
+t1.id=courses_website.student_courses.users_id and
+t2.id=courses_website.course.instructor_id;
 
 
 SELECT uu.username,rr.name FROM courses_website.users uu
