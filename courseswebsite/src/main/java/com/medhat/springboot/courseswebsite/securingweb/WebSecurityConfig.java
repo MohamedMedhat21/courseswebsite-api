@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                 .and().cors()  // enable cors filter
                 .and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/api/courses").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/**/users/").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST,"/**/users").hasAuthority("ADMIN")

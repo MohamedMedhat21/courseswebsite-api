@@ -7,6 +7,6 @@ public class Constants {
 
     public static final Integer DEFAULT_NEW_USER_ENABLED=1;
 
-    private static final Integer JWT_TOKEN_VALID_TIME_IN_MINUTES = 360;
-    public static final int JWT_TOKEN_VALID_DURATION = 60 * JWT_TOKEN_VALID_TIME_IN_MINUTES;
+    public static final Integer JWT_TOKEN_VALID_TIME_IN_MINUTES = 360;
+    public static final Integer JWT_TOKEN_VALID_DURATION = 60 * JWT_TOKEN_VALID_TIME_IN_MINUTES;
 }

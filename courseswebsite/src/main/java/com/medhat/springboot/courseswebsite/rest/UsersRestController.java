@@ -155,7 +155,7 @@ public class UsersRestController {
     @PostMapping("/users/{userId}/enrollments")
     public StudentCourses addEnrolledCourses(@PathVariable int userId,@RequestBody Map<String, Object> payload){
         if(WebSecurityPermissions.hasRole("STUDENT")&&WebSecurityPermissions.isCurrentUser(usersService.getById(userId).getUsername())){
-            Course course = coursesService.findByName(payload.get("courseName").toString());
+            Course course = coursesService.getById(Integer.parseInt(payload.get("courseId").toString()));
 
             if (course==null)
                 throw new NotFoundException("course with name: "+ payload.get("courseName").toString()+" not found");
