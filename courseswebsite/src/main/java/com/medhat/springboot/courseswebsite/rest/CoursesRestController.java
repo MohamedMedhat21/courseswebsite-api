@@ -46,7 +46,7 @@ public class CoursesRestController {
 
         Course course = coursesService.getById(courseId);
 
-        CourseDTO courseDTO = new CourseDTO(courseId,course.getName(),course.getDescription());
+        CourseDTO courseDTO = new CourseDTO(courseId,course.getName(),course.getDescription(),usersService.getById(course.getInstructorId()).getUsername());
 
         return courseDTO;
     }

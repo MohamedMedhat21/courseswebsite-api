@@ -19,8 +19,6 @@ import com.medhat.springboot.courseswebsite.service.UsersService;
 import com.medhat.springboot.courseswebsite.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,14 +73,15 @@ public class UsersRestController {
 
     @GetMapping("/users/{userId}/mycourses")
     public List<CourseDTO> getInstructorCourses(@PathVariable int userId){
-        if(WebSecurityPermissions.hasPermission(usersService.getById(userId).getUsername(),"ADMIN")){
+        Users user = usersService.getById(userId);
+        if(WebSecurityPermissions.hasPermission(user.getUsername(),"ADMIN")){
 
             List<Course> courses = usersService.getInstructorCourses(userId);
 
             List<CourseDTO> courseDTOS = new ArrayList<>();
 
             for (Course course:courses) {
-                CourseDTO courseDTO = new CourseDTO(course.getId(),course.getName(),course.getDescription());
+                CourseDTO courseDTO = new CourseDTO(course.getId(),course.getName(),course.getDescription(), user.getUsername());
                 courseDTOS.add(courseDTO);
             }
 

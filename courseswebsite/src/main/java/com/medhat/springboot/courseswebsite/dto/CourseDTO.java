@@ -6,10 +6,13 @@ public class CourseDTO {
     private String Name;
     private String description;
 
-    public CourseDTO(Integer courseId, String name, String description) {
+    private String instructorName;
+
+    public CourseDTO(Integer courseId, String name, String description, String instructorName) {
         this.courseId = courseId;
         Name = name;
         this.description = description;
+        this.instructorName = instructorName;
     }
 
     public Integer getCourseId() {
@@ -42,6 +45,15 @@ public class CourseDTO {
                 "courseId=" + courseId +
                 ", Name='" + Name + '\'' +
                 ", description='" + description + '\'' +
+                ", instructorName='" + instructorName + '\'' +
                 '}';
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
     }
 }
