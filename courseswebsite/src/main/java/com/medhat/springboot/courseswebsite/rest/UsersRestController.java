@@ -12,16 +12,21 @@ import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.exception.NotFoundException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
-import com.medhat.springboot.courseswebsite.service.CoursesService;
-import com.medhat.springboot.courseswebsite.service.RolesService;
-import com.medhat.springboot.courseswebsite.service.StudentCoursesService;
-import com.medhat.springboot.courseswebsite.service.UsersService;
+import com.medhat.springboot.courseswebsite.service.*;
 import com.medhat.springboot.courseswebsite.utils.Constants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -34,6 +39,7 @@ import java.util.Objects;
 public class UsersRestController {
 
     private UsersService usersService;
+    private ReportService reportService;
     private RolesService rolesService;
 
     private CoursesService coursesService;
@@ -43,8 +49,9 @@ public class UsersRestController {
     private RolesRepository rolesRepository;
 
     @Autowired
-    public UsersRestController(UsersService usersService,RolesService rolesService,CoursesService coursesService,StudentCoursesService studentCoursesService,RolesRepository rolesRepository) {
+    public UsersRestController(UsersService usersService, ReportService reportService, RolesService rolesService, CoursesService coursesService, StudentCoursesService studentCoursesService, RolesRepository rolesRepository) {
         this.usersService = usersService;
+        this.reportService = reportService;
         this.rolesService = rolesService;
         this.coursesService = coursesService;
         this.studentCoursesService = studentCoursesService;
@@ -56,6 +63,20 @@ public class UsersRestController {
     public List<Users> getAll(){
         return usersService.getAll();
     }
+
+    @GetMapping("/users/exportAll")
+    public ResponseEntity<byte[]> exportAllUsers() throws JRException, FileNotFoundException {
+
+        // Export the Jasper Report to a byte array
+        byte[] reportInBytes = reportService.exportReport(usersService.getAll());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "users.pdf");
+
+        return new ResponseEntity<>(reportInBytes, headers, HttpStatus.OK);
+    }
+
 
     @GetMapping("/users/{userId}")
     public UserDTO getById(@PathVariable int userId) {
