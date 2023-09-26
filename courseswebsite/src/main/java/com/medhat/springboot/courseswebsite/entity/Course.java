@@ -42,6 +42,7 @@ public class Course {
     @Column(name="instructor_id")
     private Integer instructorId;
 
-
+    @Column(name="instructor_name")
+    private String instructorName;
 
 }
