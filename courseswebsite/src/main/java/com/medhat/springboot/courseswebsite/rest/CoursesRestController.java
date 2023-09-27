@@ -3,6 +3,7 @@ package com.medhat.springboot.courseswebsite.rest;
 
 import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
+import com.medhat.springboot.courseswebsite.entity.ListResponse;
 import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
@@ -10,9 +11,11 @@ import com.medhat.springboot.courseswebsite.utils.Constants;
 import com.medhat.springboot.courseswebsite.service.CoursesService;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +39,20 @@ public class CoursesRestController {
     }
 
     @GetMapping("/courses")
-    public List<Course> findAll(@RequestParam("p") int pageNumber,@RequestParam("s") String sortField){
-        Pageable paginationSettings = PageRequest.of(pageNumber, Constants.COURSE_PAGE_SIZE, Sort.by(sortField));
-        return coursesService.getAll(paginationSettings).getContent();
+    public ResponseEntity<ListResponse> findAll(@RequestParam("pageNumber") int pageNumber,@RequestParam("pageSize") int pageSize, @RequestParam("sortField") String sortField){
+        Pageable paginationSettings = PageRequest.of(pageNumber, pageSize, Sort.by(sortField));
+        Page<Course> modelPage = coursesService.getAll(paginationSettings);
+        List<Course> courses = modelPage.getContent();
+
+        int totalPages = modelPage.getTotalPages();
+
+
+        ListResponse responseList = new ListResponse();
+        responseList.setCourses(courses);
+        responseList.setPage(pageNumber);
+        responseList.setTotalPages(totalPages);
+        responseList.setTotalRecords((int)modelPage.getTotalElements());
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/courses/{courseId}")

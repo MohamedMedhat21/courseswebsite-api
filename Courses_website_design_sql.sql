@@ -50,19 +50,20 @@ CREATE TABLE `course` (
 `image_path` varchar(255),
 `course_link` varchar(200),
 `instructor_id` int,
+`instructor_name` varchar(200),
 PRIMARY KEY (`id`),
 CONSTRAINT `instructor_fk` FOREIGN KEY (`instructor_id`) REFERENCES `users` (`id`) ON DELETE restrict
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO `courses_website`.`course` (`name`,`description`,`instructor_id`,`creation_date`,`total_hours`,`headline`,`image_path`,`course_link`)
+INSERT INTO `courses_website`.`course` (`name`,`description`,`instructor_id`,`creation_date`,`total_hours`,`headline`,`image_path`,`course_link`,`instructor_name`)
 VALUES
-('sprint boot','Spring Boot is one of the Best Backend frameworks that developers count on while performing backend web development tasks',3,date_sub(current_date(),INTERVAL 55 DAY),25,'Spring Core, Spring REST, Spring Security, JPA, Hibernate, MySQL','https://img-c.udemycdn.com/course/240x135/647428_be28_10.jpg','https://www.youtube.com/embed/9SGDpanrc8U'),
-('REST APIs','API that conforms to the design principles of the REST, or representational state transfer architectural style.',3,date_sub(current_date(),INTERVAL 40 DAY),10,'Build REST APIs with Python, Flask, Docker, Flask-Smorest, and Flask-SQLAlchemy','https://img-b.udemycdn.com/course/240x135/970600_68be_4.jpg','https://www.youtube.com/embed/lsMQRaeKNDk'),
-('JAVA','Java is a high-level, class-based,object-oriented programming language that is designed to have as few implementation dependencies as possible.',3,date_sub(current_date(),INTERVAL 33 DAY),40,'Obtain valuable Core Java Skills And Java Certification','https://img-b.udemycdn.com/course/240x135/533682_c10c_4.jpg','https://www.youtube.com/embed/eIrMbAQSU34'),
-('C++','C++ is a high-level,general-purpose programming language created by Danish computer scientist Bjarne Stroustrup.',4,date_sub(current_date(),INTERVAL 20 DAY),36,'Obtain Modern C++ Object-Oriented Programming (OOP) and STL skills.','https://img-b.udemycdn.com/course/240x135/1576854_9aeb_2.jpg','https://www.youtube.com/embed/8jLOx1hD3_o'),
-('Algorithms','a procedure used for solving a problem or performing a computation.',4,date_sub(current_date(),INTERVAL 11 DAY),15,'Master the Coding Interview: Data Structures + Algorithms','https://img-b.udemycdn.com/course/240x135/1917546_682b_3.jpg','https://www.youtube.com/embed/8hly31xKli0'),
-('Data Structures','a data structure is a data organization, management,and storage format that is usually chosen for efficient access to data.',4,date_sub(current_date(),INTERVAL 8 DAY),50,'Learn, Analyse and Implement Data Structure using C and C++','https://img-b.udemycdn.com/course/240x135/2121018_9de5_5.jpg','https://www.youtube/embed/6WdTxK_V9Qo');
+('sprint boot','Spring Boot is one of the Best Backend frameworks that developers count on while performing backend web development tasks',3,date_sub(current_date(),INTERVAL 55 DAY),25,'Spring Core, Spring REST, Spring Security, JPA, Hibernate, MySQL','https://img-c.udemycdn.com/course/240x135/647428_be28_10.jpg','https://www.youtube.com/embed/9SGDpanrc8U','joha'),
+('REST APIs','API that conforms to the design principles of the REST, or representational state transfer architectural style.',3,date_sub(current_date(),INTERVAL 40 DAY),10,'Build REST APIs with Python, Flask, Docker, Flask-Smorest, and Flask-SQLAlchemy','https://img-b.udemycdn.com/course/240x135/970600_68be_4.jpg','https://www.youtube.com/embed/lsMQRaeKNDk','joha'),
+('JAVA','Java is a high-level, class-based,object-oriented programming language that is designed to have as few implementation dependencies as possible.',3,date_sub(current_date(),INTERVAL 33 DAY),40,'Obtain valuable Core Java Skills And Java Certification','https://img-b.udemycdn.com/course/240x135/533682_c10c_4.jpg','https://www.youtube.com/embed/eIrMbAQSU34','joha'),
+('C++','C++ is a high-level,general-purpose programming language created by Danish computer scientist Bjarne Stroustrup.',4,date_sub(current_date(),INTERVAL 20 DAY),36,'Obtain Modern C++ Object-Oriented Programming (OOP) and STL skills.','https://img-b.udemycdn.com/course/240x135/1576854_9aeb_2.jpg','https://www.youtube.com/embed/8jLOx1hD3_o','soha'),
+('Algorithms','a procedure used for solving a problem or performing a computation.',4,date_sub(current_date(),INTERVAL 11 DAY),15,'Master the Coding Interview: Data Structures + Algorithms','https://img-b.udemycdn.com/course/240x135/1917546_682b_3.jpg','https://www.youtube.com/embed/8hly31xKli0','soha'),
+('Data Structures','a data structure is a data organization, management,and storage format that is usually chosen for efficient access to data.',4,date_sub(current_date(),INTERVAL 8 DAY),50,'Learn, Analyse and Implement Data Structure using C and C++','https://img-b.udemycdn.com/course/240x135/2121018_9de5_5.jpg','https://www.youtube.com/embed/6WdTxK_V9Qo','soha');
 
 
 CREATE TABLE `student_courses` (
