@@ -214,7 +214,7 @@ public class UsersRestController {
     @PostMapping("/users")
     public Users addUser(@RequestBody RegisterRequest request){
         String p = new String(new BCryptPasswordEncoder().encode(request.getPassword()));
-        Users users = new Users(request.getUsername(),p,request.getEmail(), Constants.DEFAULT_NEW_USER_ENABLED,rolesRepository.findByName(request.getRolename()).get());
+        Users users = new Users(request.getUsername(),p,request.getEmail(), request.getEnabled(),rolesRepository.findByName(request.getRolename()).get());
         Users currentUser = null;
         try {
             usersService.getByUserName(users.getUsername());

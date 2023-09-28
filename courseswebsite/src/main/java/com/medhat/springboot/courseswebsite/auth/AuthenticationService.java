@@ -25,7 +25,7 @@ public class AuthenticationService {
             request.getUsername(),
             passwordEncoder.encode(request.getPassword()),
             request.getEmail(),
-            Constants.DEFAULT_NEW_USER_ENABLED,
+            request.getEnabled(),
             rolesRepository.findByName(request.getRolename()).get()
     );
 
