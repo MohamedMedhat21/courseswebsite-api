@@ -3,11 +3,9 @@ package com.medhat.springboot.courseswebsite.rest;
 
 import com.medhat.springboot.courseswebsite.dto.CourseDTO;
 import com.medhat.springboot.courseswebsite.entity.Course;
-import com.medhat.springboot.courseswebsite.entity.ListResponse;
-import com.medhat.springboot.courseswebsite.entity.Users;
+import com.medhat.springboot.courseswebsite.dto.ListResponse;
 import com.medhat.springboot.courseswebsite.exception.NotAuthorizedException;
 import com.medhat.springboot.courseswebsite.securingweb.WebSecurityPermissions;
-import com.medhat.springboot.courseswebsite.utils.Constants;
 import com.medhat.springboot.courseswebsite.service.CoursesService;
 import com.medhat.springboot.courseswebsite.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;

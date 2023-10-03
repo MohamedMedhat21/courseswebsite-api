@@ -1,5 +1,6 @@
 package com.medhat.springboot.courseswebsite.securingweb;
 
+import com.medhat.springboot.courseswebsite.dao.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
+  private final TokenRepository tokenRepository;
 
   @Override
   protected void doFilterInternal(
@@ -40,7 +42,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     userEmail = jwtService.extractUsername(jwt);
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-      if (jwtService.isTokenValid(jwt, userDetails)) {
+      Boolean isTokenValid = tokenRepository.findByToken(jwt)
+              .map(t -> !t.isExpired() && !t.isRevoked())
+              .orElse(false);
+      if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,

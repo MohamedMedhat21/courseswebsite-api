@@ -1,6 +1,7 @@
 package com.medhat.springboot.courseswebsite.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,10 @@ public class Users implements UserDetails {
     @OneToOne()
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     public Users(String userName, String password, String email, Integer enabled, Role role) {
         this.userName = userName;
