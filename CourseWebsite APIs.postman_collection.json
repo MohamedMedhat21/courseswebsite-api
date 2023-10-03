@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"doda\",\r\n    \"email\":\"doda@gmail.com\",\r\n    \"password\":\"doda123\",\r\n    \"rolename\":\"INSTRUCTOR\"\r\n}",
+							"raw": "{\r\n    \"username\":\"zaki\",\r\n    \"email\":\"zaki@gmail.com\",\r\n    \"password\":\"zaki123\",\r\n    \"enabled\":1,\r\n    \"rolename\":\"INSTRUCTOR\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,6 +50,36 @@
 						"url": "http://localhost:8080/api/auth/authenticate"
 					},
 					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/employees Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6YWtpIiwiaWF0IjoxNjk2MzMwNjE0LCJleHAiOjE2OTYzNTIyMTR9.45WS16eUtTOsZ80qs_67jQ44OKr8uXaPxHQngaQbvBk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/auth/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk2MzQyOTAzLCJleHAiOjE2OTYzNjQ1MDN9.aaZ_X6xNbcuPNI8DHpdFuwh2M4KNz37-GenuoHKJuTY"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/auth/checkToken"
+					},
+					"response": []
 				}
 			]
 		},
@@ -59,6 +89,12 @@
 				{
 					"name": "http://localhost:8080/api/employees",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk2MzM1OTQ3LCJleHAiOjE2OTYzNTc1NDd9.WJEk2YQNtaZHnqPCQUQNmUa638yKT5d6Y3_yJQ1p_X0"
+							}
+						},
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/api/users"
@@ -71,7 +107,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2hhIiwiaWF0IjoxNjkyMjU4MjM2LCJleHAiOjE2OTIyNTg4MzZ9.LJPmp7s83RVhVn3-Dr7VVS1sSh9Pzc6cItLC_Uk0JTQ"
+								"token": "{{Token}}"
 							}
 						},
 						"method": "GET",
@@ -176,14 +212,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{Token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk2MTQ4NDA2LCJleHAiOjE2OTYxNzAwMDZ9.bJlbuc1r-xB9ecGbySq9B66x1mz21Q7mzVcKxLyU7x8"
 							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"mona\",\r\n    \"password\": \"secrethaha\",\r\n    \"email\": \"mona@gmail.com\",\r\n    \"enabled\": 1,\r\n    \"rolename\":\"INSTRUCTOR\"\r\n}",
+							"raw": "{\r\n    \"username\": \"moha\",\r\n    \"password\": \"secrethaha\",\r\n    \"email\": \"mona@gmail.com\",\r\n    \"enabled\": 0,\r\n    \"rolename\":\"INSTRUCTOR\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -207,7 +243,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 24,\r\n    \"username\": \"mona\",\r\n    \"email\": \"mona@gmail.com\",\r\n    \"enabled\":1,\r\n    \"rolename\": \"STUDENT\"\r\n}",
+							"raw": "{\r\n    \"id\": 30,\r\n    \"username\": \"mary\",\r\n    \"email\": \"mon2a@gmail.com\",\r\n    \"enabled\":1,\r\n    \"rolename\": \"INSTRUCTOR\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -229,7 +265,22 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/users/25"
+						"url": "http://localhost:8080/api/users/72"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/employees Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk1NjI0NTU0LCJleHAiOjE2OTU2NDYxNTR9.Sx98dmzy-ozyg8rOuR9BSF2ESEaGT7-si-J2b6Ooxss"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/users/exportAll"
 					},
 					"response": []
 				}
@@ -244,13 +295,19 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{Not Admin Token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb2hhIiwiaWF0IjoxNjk1ODI1MjEyLCJleHAiOjE2OTU4NDY4MTJ9.jtKaJuZoasg7g5hOt_wVkIUB0zXAVTwUj5UL-bTcr7s"
 							}
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk0Njk1NTAzLCJleHAiOjE2OTQ2OTg1MDN9.ufAlKeyY29RUzoA7VVZ_OKSw3vyR5hfwlfpZWeaPjkg",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/courses?p=0&s=name",
+							"raw": "http://localhost:8080/api/courses?pageNumber=0&pageSize=10&sortField=id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -262,12 +319,16 @@
 							],
 							"query": [
 								{
-									"key": "p",
+									"key": "pageNumber",
 									"value": "0"
 								},
 								{
-									"key": "s",
-									"value": "name"
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "sortField",
+									"value": "id"
 								}
 							]
 						}
@@ -280,12 +341,12 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{Not Admin Token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb2hhIiwiaWF0IjoxNjk1NzE0NzEwLCJleHAiOjE2OTU3MzYzMTB9.RTpR3ww8ndMs8lJLTVolOicdXXj38rNzvdFn5c1CNCw"
 							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/courses/2"
+						"url": "http://localhost:8080/api/courses/19"
 					},
 					"response": []
 				},
@@ -302,7 +363,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs\",\r\n    \"instructorId\": 3\r\n}",
+							"raw": "{\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs\",\r\n    \"totalHours\":22,\r\n    \"headline\":\"Ruby Core, Rails REST, Rails Security, VS code, jsp, MySQL\",\r\n    \"imagePath\":\"https://img-b.udemycdn.com/course/240x135/1004034_1b7c_10.jpg\",\r\n    \"courseLink\":\"https://www.youtube.com/embed/fmyvWz5TUWg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -326,7 +387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":7,\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs and MVCsssss\",\r\n    \"instructorId\": 3\r\n}",
+							"raw": "{\r\n    \"id\":9,\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs\",\r\n    \"totalHours\":2211,\r\n    \"headline\":\"Ruby Core, Rails REST, Rails Security, VS code, jsp, MySQL\",\r\n    \"imagePath\":\"https://img-b.udemycdn.com/course/240x135/1004034_1b7c_10.jpg\",\r\n    \"courseLink\":\"https://www.youtube.com/embed/fmyvWz5TUWg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -348,7 +409,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/courses/7"
+						"url": "http://localhost:8080/api/courses/9"
 					},
 					"response": []
 				}
@@ -461,12 +522,12 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{instructor token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2hhIiwiaWF0IjoxNjk1Mjk2MDYzLCJleHAiOjE2OTUzMTc2NjN9.Lb6TyvFZHaeKsIaErlzMVsXptNQXHdDFQSrprivVOBM"
 							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/users/4/mycourses"
+						"url": "http://localhost:8080/api/users/3/mycourses"
 					},
 					"response": []
 				},
@@ -476,12 +537,12 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{instructor token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb2hhIiwiaWF0IjoxNjk1NzIwNjY0LCJleHAiOjE2OTU3NDIyNjR9.kTtJLkzU3BkY1WhUDbiEWLBhdbSPRElwc_6O29lAftM"
 							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/users/4/mycourses/1"
+						"url": "http://localhost:8080/api/users/4/mycourses/4"
 					},
 					"response": []
 				},
@@ -491,14 +552,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{instructor token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb2hhIiwiaWF0IjoxN1MTZ9.XC2ftUnPdRfcmTCe_02MKcFAsdoeQXIkHayMMN35zzs"
 							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"C\",\r\n    \"description\": \"C is a high-level,general-purpose programming language created by Danish computer scientist Bjarne Stroustrup.\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs\",\r\n    \"creationDate\":\"2023-09-19T22:00:00.000+00:00\",\r\n    \"totalHours\":22,\r\n    \"headline\":\"Ruby Core, Rails REST, Rails Security, VS code, jsp, MySQL\",\r\n    \"imagePath\":\"https://img-b.udemycdn.com/course/240x135/1004034_1b7c_10.jpg\",\r\n    \"courseLink\":\"https://www.youtube.com/embed/fmyvWz5TUWg\",\r\n    \"instructorName\":\"soha\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -515,14 +576,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{instructor token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb2hhIiwiaWF0IjoxNjk1NzIwMjA5LCJleHAiOjE2OTU3NDE4MDl9.mjjjk0otNGTGaEODh97SwLQUbDKaUjdyNPuVnOgQ-CQ"
 							}
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 9,\r\n    \"name\": \"C++\",\r\n    \"description\": \"222 a high-level,general-purpose programming language created by Danish computer scientist Bjarne Stroustrup.\"\r\n}",
+							"raw": "{\r\n    \"id\":9,\r\n    \"name\": \"Ruby\",\r\n    \"description\": \"Ruby on Rails is a backend framework used to build APIs\",\r\n    \"totalHours\":22,\r\n    \"headline\":\"Ruby Core, Rails REST, Rails Security, VS code, jsp, MySQL\",\r\n    \"imagePath\":\"https://img-b.udemycdn.com/course/240x135/1004034_1b7c_10.jpg\",\r\n    \"courseLink\":\"https://www.youtube.com/embed/fmyvWz5TUWg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -559,7 +620,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{student token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJub2hhIiwiaWF0IjoxNjk1NDk1NDQxLCJleHAiOjE2OTU1MTcwNDF9.aEffP-3P95GATfLCm23my-8WKp1oQz6iOhzr_7iCLyg"
 							}
 						},
 						"method": "GET",
@@ -574,7 +635,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{student token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk1MzgyNTEyLCJleHAiOjE2OTU0MDQxMTJ9.tC2vscLiGbGqQp9i2eCNo-B_XwjPOKG9Qe6aVht-YrM"
 							}
 						},
 						"method": "GET",
@@ -589,14 +650,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{student token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJub2hhIiwiaWF0IjoxNjk1NDg2NjI4LCJleHAiOjE2OTU1MDgyMjh9.VdFbpZ1NpdRoM7LsgZNUmQNUz6hglbTz7yrjDxAZTa8"
 							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"courseName\": \"C++\"\r\n}",
+							"raw": "{\r\n        \"courseId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -613,12 +674,12 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{student token}}"
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJub2hhIiwiaWF0IjoxNjk1NDg2NjI4LCJleHAiOjE2OTU1MDgyMjh9.VdFbpZ1NpdRoM7LsgZNUmQNUz6hglbTz7yrjDxAZTa8"
 							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/users/5/enrollments/6"
+						"url": "http://localhost:8080/api/users/5/enrollments/17"
 					},
 					"response": []
 				}
@@ -659,12 +720,12 @@
 		},
 		{
 			"key": "Token",
-			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2hhIiwiaWF0IjoxNjkyMjY2MTUxLCJleHAiOjE2OTIyNjY3NTF9.MUjMrRK0aOFnRSKzyLGXFguLDs3gXlV354g7YJpmol0",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2hhIiwiaWF0IjoxNjk1MTkwMzQ5LCJleHAiOjE2OTUyMTE5NDl9.WmVDYSWlbPS5Iy7duuFJ-OyY1bmXZIIq5RlXT71Beh8",
 			"type": "string"
 		},
 		{
 			"key": "student token",
-			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2hhIiwiaWF0IjoxNjkyMjY2Mjc3LCJleHAiOjE2OTIyNjY4Nzd9.JJ2SvdpdKiLh-fh2uL1xRkVhWRKp4fOmB-NXzs2_X9s",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJub2hhIiwiaWF0IjoxNjk1Mzg1OTI4LCJleHAiOjE2OTU0MDc1Mjh9.Fcad1JdKRCWwUP_RFpRTHv5bjH5IIHcZRLYw4hXCEPE",
 			"type": "string"
 		},
 		{

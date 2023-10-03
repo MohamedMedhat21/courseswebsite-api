@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS `student_courses`;
 DROP TABLE IF EXISTS `course`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `token`;
 
 CREATE TABLE `role` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -26,6 +27,15 @@ PRIMARY KEY (`id`),
 CONSTRAINT `role_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `user_token` (
+`id` int NOT NULL AUTO_INCREMENT,
+`token` varchar(255) NOT NULL,
+`revoked` tinyint NOT NULL,
+`expired` tinyint NOT NULL,
+`user_id` int,
+PRIMARY KEY (`id`),
+CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE cascade
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `courses_website`.`role` (`name`)
 VALUES ('ADMIN'),('INSTRUCTOR'),('STUDENT');
