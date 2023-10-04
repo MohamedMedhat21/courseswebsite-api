@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -57,9 +58,9 @@ public class AuthenticationController {
     return ResponseEntity.ok(authRes);
   }
 
-  @GetMapping("/checkToken")
-  public ResponseEntity<Token> checkToken(HttpServletRequest request) {
-    String token = request.getHeader("Authorization").substring(7);
+  @PostMapping("/checkToken")
+  public ResponseEntity<Token> checkToken(@RequestBody Map<String,Object> payload) {
+    String token = payload.get("token").toString();
     Optional<Token> resTkn = tokenRepository.findByToken(token);
 
     if(resTkn.isPresent()){
