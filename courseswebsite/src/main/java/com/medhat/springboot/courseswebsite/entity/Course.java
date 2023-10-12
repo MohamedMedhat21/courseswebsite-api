@@ -22,8 +22,12 @@ public class Course {
     @Column(name="name")
     private String name;
 
+    @Column(name="name_ar")
+    private String nameAr;
+
     @Column(name="description")
     private String description;
+
     @Column(name="creation_date")
     private Date creationDate;
 
