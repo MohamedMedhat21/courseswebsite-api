@@ -70,8 +70,8 @@ public class UsersServiceImpl implements UsersService {
 
         List<StudentCoursesData> studentCoursesData = studentCoursesDataRepository.findByUserId(userId);
 
-        if (studentCoursesData.isEmpty())
-            throw new NotFoundException("Student with Id:"+userId+" not enrolled in any course");
+//        if (studentCoursesData.isEmpty())
+//            throw new NotFoundException("Student with Id:"+userId+" not enrolled in any course");
 
         return studentCoursesData;
     }
