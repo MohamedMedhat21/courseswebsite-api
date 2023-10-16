@@ -50,8 +50,8 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     @Transactional
-    public void saveRole(Role role) {
-        rolesRepository.save(role);
+    public Role saveRole(Role role) {
+        return rolesRepository.save(role);
     }
 
     @Override

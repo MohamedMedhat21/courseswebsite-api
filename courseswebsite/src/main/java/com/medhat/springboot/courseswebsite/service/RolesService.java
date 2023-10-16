@@ -9,7 +9,7 @@ public interface RolesService {
     public Role getById(int roleId);
 
     public Role getByName(String roleName);
-    public void saveRole(Role role);
+    public Role saveRole(Role role);
 
     public void deleteById(int roleId);
 }

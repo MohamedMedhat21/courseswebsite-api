@@ -2,6 +2,7 @@ package com.medhat.springboot.courseswebsite.rest;
 
 
 import com.medhat.springboot.courseswebsite.entity.Role;
+import com.medhat.springboot.courseswebsite.entity.Users;
 import com.medhat.springboot.courseswebsite.service.RolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,15 @@ public class RolesRestController {
 
     @PostMapping("/roles")
     public Role addRole(@RequestBody Role role){
-        rolesService.saveRole(role);
+        Role currentUser = null;
+        try {
+            rolesService.getByName(role.getName());
+        }
+        catch (RuntimeException exception){
+            currentUser = rolesService.saveRole(role);
+        }
+        if (currentUser==null)
+            throw new RuntimeException("role name is already in use, please choose another one");
         return role;
     }
 
